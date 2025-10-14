@@ -1,18 +1,35 @@
-# SVM Sentiment — TF-IDF + LinearSVC (Calibrated)
+# SVM-Based Sentiment Analysis with Gradio Demo
 
-This example trains a 3-class sentiment model (negative/neutral/positive) using TF-IDF features and a calibrated LinearSVC, then serves a Gradio app with:
-- **Single** input prediction (with confidences)
-- **Batch** prediction (one text per line)
-- **Explain** tab (token contributions via linear weights)
+This project implements a Sentiment Analysis system using Support Vector Machines (SVM) integrated with a Gradio UI for real-time user interaction.  
+It demonstrates how a traditional ML model can be wrapped into an interactive web interface for text-based sentiment prediction and interpretability.
 
-## Train
+---
+
+## ⚙️ Environment Setup
+
 ```bash
+python -m venv venv
+source venv/bin/activate   # (Mac/Linux)
+venv\Scripts\activate      # (Windows)
+pip install -r requirements.txt
+```
+Train the model using the default dataset:
+```
 python sentiment_training.py
-# or explicitly choose data
-python sentiment_training.py --dataset tweeteval
-python sentiment_training.py --dataset 20ng
+```
+Launch the interactive UI for sentiment prediction:
+```
+python sentiment_app.py
+```
+You can enter text and view:
 
-## Dataset Citation
-**TweetEval:** Barbieri et al., Findings of EMNLP 2020 — https://huggingface.co/datasets/cardiffnlp/tweet_eval  
-**20 Newsgroups:** Lang, ICML 1995.
+The predicted sentiment (Positive / Negative / Neutral)
 
+Token-level importance visualization
+
+Model confidence score
+
+Run Tests
+```
+pytest tests/test_sentiment.py -v
+```
