@@ -17,8 +17,6 @@ def test_training_script_runs():
     assert MODEL_PATH.exists()
     assert LABELS_PATH.exists()
     
-
-
 def test_model_load_and_predict_proba():
     model = joblib.load(MODEL_PATH)
     names = json.load(open(LABELS_PATH))
@@ -39,4 +37,5 @@ def test_linear_coef_available_via_calibration():
         getattr(getattr(cc, "estimator", None) or getattr(cc, "base_estimator", None), "coef_", None) is not None
         for cc in cal.calibrated_classifiers_
     )
+
 

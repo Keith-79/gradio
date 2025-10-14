@@ -1,16 +1,3 @@
-#!/usr/bin/env python3
-"""
-Train a calibrated LinearSVC (TF–IDF) 3-class sentiment model and save artifacts.
-
-Defaults to TweetEval (real sentiment: 0=negative,1=neutral,2=positive).
-Fallback dataset: 20 Newsgroups (topic proxy) if you call with --dataset 20ng.
-
-Artifacts:
-  artifacts/
-    svm_sentiment_calibrated.joblib
-    labels.json         # human-friendly names in model.classes_ order
-"""
-
 import argparse, json, os
 from pathlib import Path
 import numpy as np
@@ -44,7 +31,7 @@ def build_pipeline(C=1.0, calib_method="isotonic", calib_cv=5) -> Pipeline:
 
 
 def load_tweeteval():
-    from datasets import load_dataset  # requires `pip install datasets`
+    from datasets import load_dataset  
     ds = load_dataset("tweet_eval", "sentiment")
     # label ids: 0=negative, 1=neutral, 2=positive
     X_train, y_train = ds["train"]["text"], ds["train"]["label"]
@@ -66,7 +53,6 @@ def load_20ng(seed=42):
         X_train_all, y_train_all, test_size=0.2, random_state=seed, stratify=y_train_all
     )
     # map ids consistently to human labels
-    # 20NG assigns ids alphabetically: rec.autos(0), sci.med(1), talk.politics.misc(2)
     label_names = ["positive", "neutral", "negative"]
     return X_train, y_train, X_val, y_val, X_test, y_test, label_names
 
@@ -119,7 +105,6 @@ def main():
         json.dump(ordered_names, f)
     print(f"\nSaved model -> {MODEL_PATH}")
     print(f"Saved labels -> {LABELS_PATH}")
-
 
 if __name__ == "__main__":
     main()
